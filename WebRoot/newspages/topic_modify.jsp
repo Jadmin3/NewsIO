@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="console_element/top.jsp" />
 
 <script type="text/javascript">
@@ -16,7 +16,7 @@
 
 
 <div id="main">
-  <jsp:include page="console_element/left.html" />
+  <jsp:include page="console_element/left.jsp" />
   <div id="opt_area">
     <h1 id="opt_type"> 添加主题： </h1>
     <form action="../util/do_update_topic.jsp" method="post" onsubmit="return check()">
