@@ -1,4 +1,4 @@
-package cn.web.news.dao;
+﻿package cn.web.news.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,7 +57,7 @@ public class NewsDao extends BaseDao {
 	/**
 	 * 查询新闻内容
 	 * 
-	 * @return
+	 * @return  NewsDetial
 	 */
 	public NewsDetial findContent(int nid) {
 		String sql = "select news.*,topic.tname from news,topic WHERE news.ntid = topic.tid and news.nid=?";
@@ -244,7 +244,7 @@ public class NewsDao extends BaseDao {
 	 * @return
 	 */
 	public List<News> indexFindByLimit(int ntid,int pageNo, int pageSize) {
-		String sql = "SELECT * FROM news WHERE ntid=?  LIMIT ?,?;";
+		String sql = "SELECT * FROM news WHERE ntid=?  LIMIT ?,?";
 		Connection conn = super.getContion();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -330,6 +330,169 @@ public class NewsDao extends BaseDao {
 
 		return i;
 
+	}
+	/**
+	 * 添加新闻
+	 * @param news
+	 * @return
+	 */
+	public int addNews(News news) {
+		String sql = "INSERT INTO news (ntid,ntitle,nauthor,ncreatedate,npicpath,ncontent,nsummary)VALUES(?,?,?,NOW(),?,?,?)";
+		Connection connection = super.getContion();
+		PreparedStatement statement = null;
+		int row = 0;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, news.getNtid());
+			statement.setString(2, news.getNtitle());
+			statement.setString(3,news.getNauthor());
+			statement.setString(4, news.getNpicpath());
+			statement.setString(5, news.getNcontent());
+			statement.setString(6, news.getNsummary());
+			row = statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return row;
+		
+	}
+	
+	
+	/**
+	 * 添加主题
+	 * @param news
+	 * @return int类型受影响的行
+	 */
+	public int addTopic(String topic) {
+		String sql = "INSERT INTO topic (tname) VALUES(?)";
+		Connection connection = super.getContion();
+		PreparedStatement statement = null;
+		int row = 0;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, topic);
+			row = statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return row;
+		
+	}
+	
+	/**
+	 * 修改新闻
+	 * @param news
+	 * @return
+	 */
+	public int updateNews(News news) {
+		String sql ="UPDATE news SET ntid = ?,ntitle=?,nauthor=?,nmodifydate=NOW(),npicpath=?,ncontent=?,nsummary=? WHERE nid = ?";
+		Connection connection = super.getContion();
+		PreparedStatement statement = null;
+		int row = 0;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, news.getNtid());
+			statement.setString(2, news.getNtitle());
+			statement.setString(3,news.getNauthor());
+			statement.setString(4, news.getNpicpath());
+			statement.setString(5, news.getNcontent());
+			statement.setString(6, news.getNsummary());
+			statement.setInt(7, news.getNid());
+			row = statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return row;
+		
+	}
+	
+	/**
+	 * 有误的方法
+	 * @param nid
+	 * @return
+	 */
+	public List<NewsDetial> findNewsInfo(int nid){
+		String sql="SELECT * from news, comments WHERE nid ="+nid+" and news.nid = comments.cnid";
+		Connection connection = super.getContion();
+		PreparedStatement statement =null;
+		ResultSet rs = null;
+		List<NewsDetial> list = new ArrayList<>();
+		try {
+			statement = connection.prepareStatement(sql);
+			//statement.setInt(1, nid);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				NewsDetial detial = new NewsDetial();
+				detial.setNid(rs.getInt("nid"));
+				detial.setNtid(rs.getInt("ntid"));
+				detial.setNtitle(rs.getString("ntitle"));
+				detial.setNauthor(rs.getString("nauthor"));
+				detial.setNcreatedate(rs.getString("ncreatedate"));
+				detial.setNcontent(rs.getString("ncontent"));
+				detial.setNsummary(rs.getString("nsummary"));
+				detial.setCid(rs.getInt("cid"));
+				detial.setCnid(rs.getInt("cnid"));
+				detial.setCcontent(rs.getString("ccontent"));
+				detial.setCdate(rs.getString("cdate"));
+				detial.setCip(rs.getString("cip"));
+				detial.setCauthor(rs.getString("cauthor"));
+				list.add(detial);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+		
+	}
+	
+	/**
+	 * 删除新闻
+	 * @param nid
+	 * @return  int类型的影响行数
+	 */
+	public int delNews(int nid) {
+		String sql = "DELETE FROM news WHERE nid =?";
+		Connection connection = super.getContion();
+		PreparedStatement statement = null;
+		int row = 0;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, nid);
+			row = statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return row;
+		
+	}
+	
+	/**
+	 * 删除评论 
+	 * @param nid
+	 * @return  int类型的影响行数
+	 */
+	public int delComments(int cid) {
+		String sql = "DELETE FROM comments WHERE cid = ?";
+		Connection connection = super.getContion();
+		PreparedStatement statement = null;
+		int row = 0;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, cid);
+			row = statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return row;
+		
 	}
 
 }
