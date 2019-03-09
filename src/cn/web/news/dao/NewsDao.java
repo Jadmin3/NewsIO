@@ -496,3 +496,4 @@ public class NewsDao extends BaseDao {
 	}
 
 }
+
