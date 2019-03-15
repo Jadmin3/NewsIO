@@ -1,4 +1,4 @@
-package cn.web.news.beans;
+﻿package cn.web.news.beans;
 
 import cn.web.news.dao.TopicDao;
 
@@ -92,8 +92,9 @@ public class PageBean2 {
 		return next;
 	}
 
-	public void setNext(int next) {
+		public void setNext(int next) {
 		this.next = next;
 	}
+//修复了bug
 
 }
