@@ -1,4 +1,4 @@
-package cn.web.news.entity;
+﻿package cn.web.news.entity;
 /*
  * 用户 实体类
  * @author
@@ -8,6 +8,7 @@ public class User {
 	private int uid;
 	private String uname;
 	private String upwd;
+	private String age;
 	public int getUid() {
 		return uid;
 	}
