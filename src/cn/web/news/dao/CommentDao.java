@@ -1,4 +1,4 @@
-package cn.web.news.dao;
+﻿package cn.web.news.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import cn.web.news.entity.Comment;
 public class CommentDao extends BaseDao {
 	/**
 	 * 查询评论内容
-	 * 
+	 * 在把评论内容放入作用域当中
 	 * @return
 	 */
 	public List<Comment> findComment(int nid) {
