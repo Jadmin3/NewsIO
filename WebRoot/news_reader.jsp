@@ -104,7 +104,7 @@
 
 					</c:forEach>
 					<!-- 遍历评论列表 -->
-					<!-- 有评论 -->
+					<!-- 有评论的 -->
 				</table>
 			</ul>
 			<ul class="classlist">
